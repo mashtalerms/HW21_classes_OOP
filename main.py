@@ -12,12 +12,17 @@ def main():
         if user_input.lower() == "стоп":
             break
 
+        # Проверка на правильность введеных данных
+        if len((user_input.split(" "))) != 7:
+            print("Введите корректную строку")
+            continue
+
         request = Request(user_input)
 
         # Проверка на валидность введеных данных
         if request.amount <= 0:
             print("Количество не может быть 0 или меньше 0")
-            break
+            continue
 
         # Определение пунктов назначений
         place_from = store if request.from_ == "склад" else shop
@@ -30,14 +35,14 @@ def main():
             print(f"Нужный товар есть в пункте {place_from}")
         else:
             print(f"Нужного товара нет в пункте {place_from}")
-            break
+            continue
 
         # Проверка на необходимое количество
         if (place_from.items[request.product] - request.amount) >= 0:
             print(f"Нужное количество есть в пункте {place_from}")
         else:
             print(f"Нужного количества нет в пункте {place_from}")
-            break
+            continue
 
         # Проверка условий для пункта 'В'
 
@@ -46,7 +51,7 @@ def main():
             print(f"В пункте {place_to} достаточно места")
         else:
             print(f"В пункте {place_to} недостаточно места, не хватает {request.amount - place_to.capacity}")
-            break
+            continue
 
         # Работа Курьера
         print(f"Курьер забрал {request.amount} {request.product} со {place_from}")
@@ -66,8 +71,6 @@ def main():
         for item, amount in place_to.items.items():
             print(f"{amount} {item}")
         print("=" * 30)
-
-        break
 
 
 if __name__=="__main__":
